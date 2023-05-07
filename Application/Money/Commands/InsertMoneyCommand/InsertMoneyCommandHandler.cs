@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using VendingMachine.Application.Common.Interfaces;
 
-namespace VendingMachine.Application.Money.Commands;
+namespace VendingMachine.Application.Money.Commands.InsertMoneyCommand;
 
 public class InsertMoneyCommandHandler : IRequestHandler<InsertMoneyCommand, MoneyVm>
 {

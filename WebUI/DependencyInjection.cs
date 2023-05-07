@@ -1,4 +1,6 @@
-﻿using VendingMachine.Application.Common.Interfaces;
+﻿using FluentValidation.AspNetCore;
+using VendingMachine.Application.Common.Interfaces;
+using VendingMachine.WebUI.Filters;
 using VendingMachine.WebUI.Services;
 
 namespace VendingMachine.WebUI;
@@ -11,12 +13,14 @@ public static class DependencyInjection
         services.AddSession(options =>
         {
             options.Cookie.Name = "VendingMachineSession";
-            options.IdleTimeout = TimeSpan.FromMinutes(30);
         });
 
         services.AddHttpContextAccessor();
         services.AddScoped<ITransactionManager, TransactionManager>();
-        services.AddControllersWithViews();
+
+        services.AddControllersWithViews(options =>
+            options.Filters.Add<ApiExceptionFilterAttribute>())
+            .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
 
         return services;
     }

@@ -28,4 +28,9 @@ public class Wallet
 
         Balance -= amount;
     }
+
+    public void Empty()
+    {
+        Balance = 0m;
+    }
 }

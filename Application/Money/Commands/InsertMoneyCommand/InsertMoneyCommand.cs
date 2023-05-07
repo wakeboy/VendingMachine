@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace VendingMachine.Application.Money.Commands;
+namespace VendingMachine.Application.Money.Commands.InsertMoneyCommand;
 
 public record InsertMoneyCommand : IRequest<MoneyVm>
 {

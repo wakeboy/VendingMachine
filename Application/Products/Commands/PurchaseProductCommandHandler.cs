@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using VendingMachine.Application.Common.Exceptions;
 using VendingMachine.Application.Common.Interfaces;
 
 namespace VendingMachine.Application.Products.Commands;
@@ -23,11 +24,11 @@ public sealed class PurchaseProductCommandHandler : IRequestHandler<PurchaseProd
     {
         var transactionId = transaction.TransactionId;
 
-        var product = productRepository.GetById(request.ProductId);
-        if (product == null) throw new DirectoryNotFoundException();
-
         var wallet = walletRepository.GetByTransactionId(transactionId);
-        if (wallet == null) throw new DirectoryNotFoundException();
+        if (wallet == null) throw new NotFoundException("Wallet not found insert money");
+
+        var product = productRepository.GetById(request.ProductId);
+        if (product == null) throw new NotFoundException($"Product not found {request.ProductId}");
 
         wallet.Spend(product.Price);
         product.Purchase();
