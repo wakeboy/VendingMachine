@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace VendingMachine.Application.Products.Commands;
-public record ProductVm
+
+public record PurchaseProductVm(ProductDto Product, decimal Balance);
+public record ProductDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public int Quantity { get; set; }
     public decimal Price { get; set; }
 }

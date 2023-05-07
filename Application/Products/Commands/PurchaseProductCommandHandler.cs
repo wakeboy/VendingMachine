@@ -4,7 +4,7 @@ using VendingMachine.Application.Common.Interfaces;
 
 namespace VendingMachine.Application.Products.Commands;
 
-public sealed class PurchaseProductCommandHandler : IRequestHandler<PurchaseProductCommand, ProductVm>
+public sealed class PurchaseProductCommandHandler : IRequestHandler<PurchaseProductCommand, PurchaseProductVm>
 {
     private readonly ITransactionManager transaction;
     private readonly IProductRepository productRepository;
@@ -20,7 +20,7 @@ public sealed class PurchaseProductCommandHandler : IRequestHandler<PurchaseProd
         this.walletRepository = walletRepository;
     }
 
-    public async Task<ProductVm> Handle(PurchaseProductCommand request, CancellationToken cancellationToken)
+    public async Task<PurchaseProductVm> Handle(PurchaseProductCommand request, CancellationToken cancellationToken)
     {
         var transactionId = transaction.TransactionId;
 
@@ -38,11 +38,13 @@ public sealed class PurchaseProductCommandHandler : IRequestHandler<PurchaseProd
         productRepository.Save();
         walletRepository.Save();
         
-        return new ProductVm { 
-            Id = product.Id, 
-            Name = product.Name, 
-            Price = product.Price, 
-            Quantity = product.Quantity 
-        };
+        return new PurchaseProductVm(new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            },
+            wallet.Balance
+        );
     }
 }
