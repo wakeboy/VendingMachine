@@ -24,6 +24,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Virtual Vending Machine v1");
+});
 
 app.MapControllerRoute(
     name: "default",

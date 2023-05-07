@@ -22,6 +22,15 @@ public static class DependencyInjection
             options.Filters.Add<ApiExceptionFilterAttribute>())
             .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
 
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            {
+                Title = "Virtual Vending Machine",
+                Version = "v1"
+            });
+        });
+
         return services;
     }
 }
